@@ -1,0 +1,63 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+
+            <h3> Entrar <small>Ingrese sus datos personales</small> </h3>
+
+            <p>&nbsp;</p>
+
+            <!-- Alert Success -->
+            <div ng-show="alertSuccess" class="col-md-10 col-md-offset-1">
+                <div class="alert alert-success">
+                    El usuario esta autenticado.
+                </div>
+            </div>
+
+            <!-- Alert Danger -->
+            <div ng-show="alertDanger" class="col-md-10 col-md-offset-1">
+                <div class="alert alert-danger">
+                    No se encontró al usuario.
+                </div>
+            </div>
+
+            <!-- Alert Warning -->
+            <div ng-show="alertWarning" class="col-md-10 col-md-offset-1">
+                <div class="alert alert-warning">
+                    El formulario se ha reiniciado.
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Formulario de Ingreso</h4>
+                        </div>
+                
+                        <div class="panel-body bg-info">
+
+                            <div class="row">
+                                <div class="col-md-6 text-center text-uppercase">email:</div>
+                                <div class="col-md-6"><input ng-model="email" ng-focus="init()" maxlength="30" type="text" class="form-control"></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 text-center text-uppercase">password:</div>
+                                <div class="col-md-6"><input ng-model="password" ng-keydown="entrarTambien($event)" maxlength="10" type="password" class="form-control"></div>
+                            </div>
+
+                        </div>
+
+                        <div class="panel-footer clearfix">
+                            <button ng-click="cancelar()" type="button" class="btn btn-danger pull-left">Cancelar</button> 
+                            <button ng-click="entrar()" type="button" class="btn btn-info pull-right">Ingresar</button> 
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

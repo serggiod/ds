@@ -1,0 +1,85 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+
+            <h3>Registrarse <small>Ingrese sus datos</small> </h3>
+
+            <p>&nbsp;</p>
+
+            <!-- Alert Success -->
+            <div ng-show="alertSuccess" class="col-md-10 col-md-offset-1">
+                <div class="alert alert-success">
+                    El usuario se ha registrado con éxito.
+                </div>
+            </div>
+
+            <!-- Alert Danger -->
+            <div ng-show="alertDanger" class="col-md-10 col-md-offset-1">
+                <div class="alert alert-danger">
+                    Falló el registro del usuario.
+                </div>
+            </div>
+
+            <!-- Alert Danger -->
+            <div ng-show="alertDangerF1" class="col-md-10 col-md-offset-1">
+                <div class="alert alert-danger">
+                    El password y su testigo deben ser iguales.
+                </div>
+            </div>
+
+            <!-- Alert Warning -->
+            <div ng-show="alertWarning" class="col-md-10 col-md-offset-1">
+                <div class="alert alert-warning">
+                    El formulario se ha reiniciado.
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                                <h4>Formulario de Registro</h4>
+                        </div>
+                        <div class="panel-body bg-info text-center">
+
+                            <div class="row">
+                                <div class="col-md-6 text-uppercase">Nombres:</div>
+                                <div class="col-md-6"><input ng-model="nombres" ng-focus="init()" type="text" class="form-control" maxlength="50"/></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 text-uppercase">Apellidos:</div>
+                                <div class="col-md-6"><input ng-model="apellidos" type="text" class="form-control" maxlength="50"/></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 text-uppercase">Email:</div>
+                                <div class="col-md-6"><input ng-model="email" type="email" class="form-control" maxlength="30"/></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 text-uppercase">Password:</div>
+                                <div class="col-md-6"><input ng-model="password" type="password" class="form-control" maxlength="10"/></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 text-uppercase">Repetir Password:</div>
+                                <div class="col-md-6"><input ng-model="repassword" type="password" class="form-control" maxlength="10"/></div>
+                            </div>
+
+                        </div>
+
+                        <div class="panel-footer clearfix">
+                            <input ng-click="cancelar()"  type="button" value="Cancelar" class="btn btn-md btn-danger pull-left">
+                            <input ng-click="registrar()" type="button" value="Regisrar" class="btn btn- md btn-success pull-right">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+                
+        </div>
+    </div>
+</div>

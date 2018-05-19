@@ -1,0 +1,32 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+
+            <h3>Histórico <small>¿Que han búscado?</small> </h3>
+
+            <p>&nbsp;</p>
+            
+            <div class="row"><div class="col-md-10 col-md-offset-1">
+                <table class="table table-bordered table-responsive">
+                    <tr class="bg-primary">
+                        <td>FECHA</td>
+                        <td>BUSQUEDA</td>
+                        <td>RESULTADO</td>
+                        <td></td>
+                    </tr>
+                    <tr ng-repeat="h in historico">
+                        <td>{{h.fecha}}</td>
+                        <td><strong>{{h.esquema}}</strong></td>
+                        <td>{{h.target}}</td>
+                        <td>
+                            <a href="#/inicio/{{h.esquema}}" class="btn btn-sm btn-primary">
+                                <i class="glyphicon glyphicon-new-window"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div></div>
+
+        </div>
+    </div>
+</div>
