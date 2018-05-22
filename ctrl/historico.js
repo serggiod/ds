@@ -1,10 +1,11 @@
-angular.module('application').controller('historicoCtrl',function($scope,$http,$location){
+angular.module('application').controller('historicoCtrl',function($scope,$http,$location,$session,$rootScope){
 
     $scope.inicio = () => {
         $rootScope.showUserMenu = false;
         $rootScope.isAdmin = false;
         if($session.get('estado')==='ACTIVO'){
             $rootScope.showUserMenu = true;
+            $rootScope.isAdmin = false;
             $rootScope.nombre = $session.get('nombre');
         }
 

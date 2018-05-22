@@ -11,6 +11,24 @@ $e404 = function() {
 	die;
 };
 
+$session = function(){
+	
+	if($_SESSION['ESTADO']==='ACTIVO'){
+		$date = new DateTime();
+		$diff = ($date->getTimestamp() - intval($_SESSION['LASTTIME'])) /1000;
+		if($diff<=3600) return true;
+		else return false;
+	} else return false;
+
+};
+
+$admin = function(){
+	
+	if($_SESSION['ADMIN']==='TRUE')return true;
+	else return false;
+
+};
+
 $app = new \Slim\App();
 $pdo = new \PDO('mysql:host=localhost;dbname=ds;charset=utf8', 'test', 'test');
 

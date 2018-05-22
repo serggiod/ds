@@ -17,6 +17,7 @@
             if($login->result==true) {
                 $_SESSION['ESTADO'] = 'ACTIVO';
                 $_SESSION['LASTTIME'] = $date->getTimestamp();
+                if($login->rows->administrador==='true') $_SESSION['ADMIN'] = 'TRUE';
             }
             $rs = $rs->withHeader('Content-Type','application/json; charset=UTF-8');
             return $rs->write($json);
@@ -26,6 +27,7 @@
 
     $app->delete('/session/logout',function($rq,$rs,$a) use ($pdo,$e404) {
 
+        unset($_SESSION['ADMIN']);
         unset($_SESSION['ESTADO']);
         unset($_SESSION['LASTTIME']);
         session_unset();
@@ -35,15 +37,9 @@
         
     });
 
-    $app->get('/session/status',function($rq,$rs,$a) use ($pdo,$e404) {
+    $app->get('/session/status',function($rq,$rs,$a) use ($pdo,$e404,$session) {
 
-        $json = ['result'=>false, 'rows'=>null];
-        $date = new DateTime();
-        $diff = ($date->getTimestamp() - intval($_SESSION['LASTTIME'])) /1000;
-        if($diff<=3600){
-            $_SESSION['LASTTIME'] = $date->getTimestamp();
-            $json['result'] = true;
-        }
+        $json = ['result'=>$session(), 'rows'=>null];
         $rs = $rs->withHeader('Content-Type','application/json; charset=UTF-8');
         return $rs->write(json_encode($json));
         

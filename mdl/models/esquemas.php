@@ -22,4 +22,16 @@
         return $rs->write($blob);
         
     });
+
+    $app->post('/esquemas/insert',function($rq,$rs,$a) use ($pdo,$e404,$session){
+        if($session()===true){
+            $json = array('result'=>false,'rows'=>null);
+            $body = $rq->getParsedBody();
+            error_log($body['nombre']);
+            error_log($body['descripcion']);
+            error_log($body['base64']);
+            $rs = $rs->withHeader('Content-Type','application/json');
+            return $rs->write(json_encode($json));
+        }
+    });
     

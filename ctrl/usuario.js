@@ -9,64 +9,57 @@ angular.module('application').controller('usuarioCtrl',function($scope,$http,$lo
         }
     };
 
-    $scope.usuarioEnviarUnEsquema = () => { 
-        let form = document.createElement('div');
-            form.cssClass = 'form-group';
+    $scope.usuarioEnviarUnEsquema = function() {
+        let form  = '<label class="label label-default">Nombre:</label>';
+            form += '<input id="nombre" type="text" class="form-control" maxlength="40">';
+            form += '<label class="label label-default">Descripción:</label>';
+            form += '<textarea id="descripcion" class="form-control" rows="2"></textarea>';
+            form += '<label class="label label-default">Archivo en PDF</label>';
+            form += '<input id="archivo" type="file" accept=".pdf" class="btn btn-primary form-control" lang="es">';
+        
+        let aceptar = function() {
+            let archivo = document.getElementById('archivo');
+            
+            if(archivo.files.length===1 && archivo.files[0].type==='application/pdf'){
+                let file = archivo.files[0];
+                let read = new FileReader();
+                    read.readAsDataURL(archivo.files[0]);
+                    read.onload = function(event) {
+                        let url = 'mdl/index.php/esquemas/insert';
+                        let json = {
+                            nombre:document.getElementById('nombre').value.match(new RegExp('[a-z0-9-]','gi')).join(''),
+                            descripcion:document.getElementById('descripcion').value.match(new RegExp('[a-z0-9áéíóúÁÉÍÓÚñÑ.; ]','gim')).join(''),
+                            base64:event.target.result.replace('data:application/pdf;base64,','')
+                        };
+                        $http
+                            .post(url,json)
+                            .success(function(json){
+                                if(json.result===false);
+                                if(json.result===true){
+                                    
+                                }
+                                console.log(json);
+                            });
+                    };
+            }
+        };
 
-        let labelN = document.createElement('label');
-            labelN.innerHTML = 'Nombre:';
-            form.append(labelN);
+        let cancelar = () => { win.close();};
 
-        let inputN = document.createElement('input');
-            inputN.type = 'text';
-            inputN.cssClass = 'form-control';
-            form.append(inputN);
-
-        let labelD = document.createElement('label');
-            labelD.innerHTML = 'Descripción';
-            form.append(labelD);
-
-        let inputD = document.createElement('textarea');
-            inputD.cssClass = 'form-control';
-            form.append(inputD);
-
-        let labelF = document.createElement('label');
-            labelF.innerHTML = 'Esquema en PDF';
-            form.append(labelF);
-
-        let inputF = document.createElement('input');
-            inputF.type = 'file';
-            inputF.lang = 'es';
-            inputF.cssClass = 'form-control';
-            form.append(inputF);
-
-        let formAceptar = () => {
-                let json = {
-                    nombre:inputN.value,
-                    descripcion:inputD.value,
-                    archivo : 'nombre del archivo'
-                };
-                console.log(json);
-            };
-
-        let formCancelar = () => {
-                formWindow.close();
-            };
-
-        let formWindow = BootstrapDialog.show({
+        let win = BootstrapDialog.show({
                 closable:false,
                 type:BootstrapDialog.TYPE_PRIMARY,
-                size:BootstrapDialog.SIZE_NORMAL,
-                title: 'Enviar esquema',
+                size:BootstrapDialog.SIZE_SMALL,
+                title: '<i class="wb-cloud form-icon"></i> ENVIAR ESQUEMA',
                 message:form,
                 buttons:[{
-                    cssClass:'btn btn-danger pull-left',
+                    cssClass:'btn btn-danger pull-left wp-close',
                     label:'Cancelar',
-                    action:formCancelar
+                    action:cancelar
                 },{
-                    cssClass:'btn btn-success pull-right',
+                    cssClass:'btn btn-success pull-right wp-check-circle',
                     label:'Aceptar',
-                    action:formAceptar 
+                    action:aceptar 
                 }]
             });
     };

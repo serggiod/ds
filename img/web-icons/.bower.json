@@ -1,0 +1,24 @@
+{
+  "name": "web-icons",
+  "main": "css/web-icons.css",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "src",
+    "templates"
+  ],
+  "homepage": "https://github.com/amazingSurge/web-icons",
+  "_release": "91694c9335",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "91694c93358d00ea85e9cd6531c2a5eaabfd63f9"
+  },
+  "_source": "https://github.com/amazingSurge/web-icons.git",
+  "_target": "*",
+  "_originalSource": "web-icons",
+  "_direct": true
+}

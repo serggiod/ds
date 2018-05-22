@@ -1,4 +1,4 @@
-angular.module('application').controller('registrarseCtrl',function($scope,$http,$location,$session){
+angular.module('application').controller('registrarseCtrl',function($scope,$http,$location,$session,$rootScope){
     
     $scope.init = function (){
 
