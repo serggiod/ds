@@ -2,6 +2,9 @@
     .form-icon{
         margin: 5px;
     }
+    .table-title{
+        font-weight: bold;
+    }
 </style>
 <div class="container-fluid">
     <div class="row">
@@ -23,6 +26,12 @@
                             <td>Esquema</td>
                             <td>Fecha</td>
                             <td>Estado</td>
+                            <td></td>
+                        </tr>
+                        <tr ng-repeat="e in esquemasEnviados">
+                            <td>{{e.nombre}}</td>
+                            <td>{{e.fecha}}</td>
+                            <td>{{e.estado}}</td>
                             <td></td>
                         </tr>
                     </table>

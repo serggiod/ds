@@ -37,7 +37,7 @@ angular.module('application').controller('entrarCtrl',function($scope,$http,$loc
                     $scope.alertSuccess = true;
                     $session.start(json.rows);
                     $rootScope.showUserMenu = true;
-                    $rootScope.isAdmin = eval(json.rows.administrador);
+                    $rootScope.isAdmin = eval(json.rows.isadmin);
                     $rootScope.nombre = $session.get('nombre');
                     $location.path('/usuario');
                 } else $scope.alertDanger = true;

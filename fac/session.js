@@ -1,4 +1,4 @@
-angular.module('application').factory('$session',function($http){
+angular.module('application').factory('$session',function($http,$location){
     return {
         get:function(key){
             return sessionStorage.getItem(key);
@@ -8,14 +8,14 @@ angular.module('application').factory('$session',function($http){
         },
         start:function(usuario){
             let $this=this;
-            let nombre = usuario.nombre + ' ' + usuario.apellido;
-            $this.set('nombre',nombre);
+            $this.set('nombre',usuario.nombre + ' ' + usuario.apellido);
+            $this.set('isadmin',usuario.isadmin);
             $this.set('estado','ACTIVO');
             $this.set('lastime',new Date());
         },
         destroy:function(){
             let $this=this;
-            let url = 'mdl/models.php/session/logout';
+            let url = 'mdl/index.php/session/logout';
             $this.set('nombre',null);
             $this.set('estado',null);
             $this.set('lastime',null);
@@ -25,13 +25,19 @@ angular.module('application').factory('$session',function($http){
         },
         execute:function(promise){
             let $this=this;
-            let url = 'mdl/models.php/session/status';
+            let url = 'mdl/index.php/session/status';
             $http
                 .get(url)
-                .error(function(){ $this.destroy(); })
+                .error(function(){
+                    $this.destroy();
+                    $location.path('/entrar');
+                })
                 .success(function(json){
                     if(json.result===true) promise();
-                    else $this.destroy();
+                    else {
+                        $this.destroy();
+                        $location.path('/entrar');
+                    }
                 });
         }
     }

@@ -16,8 +16,9 @@
             $login = json_decode($json);
             if($login->result==true) {
                 $_SESSION['ESTADO'] = 'ACTIVO';
+                $_SESSION['USUID'] = $login->rows->id;
                 $_SESSION['LASTTIME'] = $date->getTimestamp();
-                if($login->rows->administrador==='true') $_SESSION['ADMIN'] = 'TRUE';
+                if($login->rows->isadmin==='true') $_SESSION['ADMIN'] = 'TRUE';
             }
             $rs = $rs->withHeader('Content-Type','application/json; charset=UTF-8');
             return $rs->write($json);

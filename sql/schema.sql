@@ -10,12 +10,6 @@ CREATE TABLE esquemas (
   esq_sts  ENUM('PUBLICADO','PENDIENTE'),
   PRIMARY KEY (esq_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-INSERT INTO esquemas VALUES(1,NULL,'SY-7VBA133U','Esquema para la placa madre D.','4343FDSFDSF455645645D','2018-05-04 08:00:00','PUBLICADO');
-INSERT INTO esquemas VALUES(2,NULL,'P5SD2-VM','ASUS® P5SD2-VM motherboard! The motherboard.','645453REGFDGFY5656THF','2018-05-06 08:00:00','PUBLICADO');
-INSERT INTO esquemas VALUES(3,NULL,'MNL-1030 - 5500','Congratulations on purchasing your computer motherboard from an acknowledged leader in the ...... Demand Scrubbing is a memory error-correction scheme that allows the proces- sor to write.','456645645667fdsf7sd6f','2018-05-03 08:00:00','PUBLICADO');
-INSERT INTO esquemas VALUES(4,NULL,'MNL-0957 - 5100','The memory scheme is interleaved, so you must install two modules .','adFBCVH57767fdsf7sd6f','2018-05-02 08:00:00','PUBLICADO');
-INSERT INTO esquemas VALUES(5,NULL,'M5A78L-M/USB3','With ASUS design, this motherboard can support up to DDR3 1333MHz. *** When overclocking, some AMD CPU models may not support.','DSFGFDG456456FDFDGFDG','2018-05-05 08:00:00','PUBLICADO');
-INSERT INTO esquemas VALUES(6,NULL,'P4i65G','The Lithium battery adopted on this motherboard contains Perchlorate, a toxic .... In this manual, chapter 1 and 2 contain introduction of the motherboard and.','MFGGjs76fds7fdsf7sd6f','2018-05-01 08:00:00','PUBLICADO');
 
 DROP TABLE IF EXISTS historico;
 CREATE TABLE historico (
@@ -82,6 +76,7 @@ BEGIN
 
 END$
 #-----------------------------------------------------------
+#-----------------------------------------------------------
 DROP PROCEDURE IF EXISTS historicoInsertar$
 CREATE PROCEDURE historicoInsertar (
   esq_nom VARCHAR(40)
@@ -141,6 +136,39 @@ BEGIN
   SELECT @json;
 END$
 #----------------------------------------------------------------------
+DROP PROCEDURE IF EXISTS usuariosEsquemasNuevo$
+CREATE PROCEDURE usuariosEsquemasNuevo(
+  usu_id INT(11),
+  usa_nom VARCHAR(30),
+  usa_des TEXT,
+  usa_arc CHAR(32)
+)
+BEGIN
+  SET @json = (SELECT CONCAT('{"result":false,"rows":null}'));
+  INSERT INTO usuarios_archivos VALUES(NULL,usu_id,usa_nom,usa_des,usa_arc,NOW(),'PENDIENTE');
+  SET @count = (SELECT LAST_INSERT_ID());
+  IF @count >=1 THEN
+    SET @json = (SELECT CONCAT('{"result":true,"rows":false}'));
+  END IF;
+  SELECT @json;
+END$
+#----------------------------------------------------------------------
+DROP PROCEDURE IF EXISTS usuariosEsquemasTodos$
+DROP PROCEDURE IF EXISTS usuarioEsquemaEnviados$
+DROP PROCEDURE IF EXISTS usuarioEsquemasEnviados$
+CREATE PROCEDURE usuarioEsquemasEnviados (
+  usu_id INT(11)
+)
+BEGIN
+  SET @json = (SELECT CONCAT('{"result":false,"rows":null}'));
+  SET @esquemas = (SELECT GROUP_CONCAT(CONCAT('{"id":"',ua.usa_id,'","nombre":"',ua.usa_nom,'","estado":"',ua.usa_est,'","fecha":"',DATE_FORMAT(ua.usa_dat,'%d-%m-%Y'),'"}') ORDER BY ua.usa_dat DESC) FROM usuarios_archivos ua WHERE ua.usu_id=usu_id);
+  SET @count = (SELECT COUNT(@esquemas));
+  IF @count >=1 THEN
+    SET @json = (SELECT CONCAT('{"result":true,"rows":[',@esquemas,']}'));
+  END IF;   
+  SELECT @json;
+END$
+#----------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS usuariosLogin$
 CREATE PROCEDURE usuariosLogin (
   usu_ema VARCHAR(30),
@@ -148,13 +176,15 @@ CREATE PROCEDURE usuariosLogin (
 )
 BEGIN
   SET @json = (SELECT CONCAT('{"result":false,"rows":true}'));
-  SET @usuario = (SELECT CONCAT('{"nombre":"',u.usu_nom,'","apellido":"',u.usu_ape,'","email":"',u.usu_ema,'","administrador":"',u.usu_adm,'"}') FROM usuarios u WHERE u.usu_ema=usu_ema AND u.usu_pas=usu_pas);
+  SET @usuario = (SELECT CONCAT('{"id":"',u.usu_id,'","nombre":"',u.usu_nom,'","apellido":"',u.usu_ape,'","email":"',u.usu_ema,'","isadmin":"',u.usu_adm,'"}') FROM usuarios u WHERE u.usu_ema=usu_ema AND u.usu_pas=usu_pas);
   SET @count = (SELECT COUNT(@usuario));
   IF @count >= 1 THEN
     SET @json = (SELECT CONCAT('{"result":true,"rows":',@usuario,'}'));
   END IF;
   SELECT @json;
 END$
-#----------------------------------------------
+#--------------------------------------------------------------------------
+
+#--------------------------------------------------------------------------
 DELIMITER ;
 
