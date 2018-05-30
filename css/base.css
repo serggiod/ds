@@ -1,0 +1,32 @@
+.user-menu{
+    width:320px;
+}
+.user-menu-img{
+    width:30px;
+}
+.user-menu-name {
+    width:225px;
+    height:30px;
+    line-height:25px;
+    padding:5px;
+    font-weight:bold;
+    overflow:hidden;
+}
+.user-menu-btn{
+    margin:5px;
+    border-radius:13px !important;
+}
+.user-menu-dropdown{
+    width:310px;
+    border-top:solid 2px #49a7ff;
+    border-left:solid 12px #49a7ff;
+}
+.user-menu-dropdown-icons{
+    margin:5px;
+}
+.form-icon{
+    margin: 5px;
+}
+.table-title{
+    font-weight: bold;
+}

@@ -19,6 +19,7 @@ angular.module('application').factory('$session',function($http,$location){
             $this.set('nombre',null);
             $this.set('estado',null);
             $this.set('lastime',null);
+            $this.set('isadmin',null);
             $http
                 .delete(url)
                 .success(function(json){});

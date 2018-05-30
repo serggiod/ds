@@ -2,7 +2,10 @@
 <html ng-app="application" lang="es">
 	<head>
 		<meta charset="utf-8"/>
-		<title>DS - ESQUEMAS</title>
+		<title>BIOS Y ESQUEMAS {{section}}</title>
+
+		<!-- Libreria CSS Estilos básicvos de la applicación -->
+		<link rel="stylesheet" href="css/base.css" />
 
 		<!-- Libreria JS Boostrap -->
 		<link rel="stylesheet" href="jlib/bootstrap.min.css">
@@ -14,36 +17,6 @@
 		<!-- CSS Library: Web-Icons-->
 		<link rel="stylesheet" href="img/web-icons/css/web-icons.css">
 	</head>
-
-	<style>
-		.user-menu{
-			width:320px;
-		}
-		.user-menu-img{
-			width:30px;
-		}
-		.user-menu-name {
-			width:225px;
-			height:30px;
-			line-height:25px;
-			padding:5px;
-			font-weight:bold;
-			overflow:hidden;
-		}
-		.user-menu-btn{
-			margin:5px;
-			border-radius:13px !important;
-		}
-		.user-menu-dropdown{
-			width:310px;
-			border-top:solid 2px #49a7ff;
-			border-left:solid 12px #49a7ff;
-		}
-		.user-menu-dropdown-icons{
-			margin:5px;
-		}
-	</style>
-
 	<body class="container container-fluid">
 
 		<!-- Barra de NAvegación -->
@@ -51,7 +24,7 @@
 			<div class="container-fluid">
 				<div class="navbar-header">
 					<a class="navbar-brand" href="#/inicio">
-							DS-ESQUEMAS
+							BIOS Y ESQUEMAS
 					</a>
 				</div>
 				<div class="collapse navbar-collapse">
@@ -76,7 +49,7 @@
 							</button>
 							<ul class="dropdown-menu user-menu-dropdown">
 								<li><a href="#/usuario"><i class="wb-user-circle user-menu-dropdown-icons"></i>Ir a la pagina del usuario.</a></li>
-								<li ng-show="isAdmin"><a href="/administracion"><i class="wb-plugin user-menu-dropdown-icons"></i>Ir a la página de administración.</a></li>
+								<li ng-show="isAdmin"><a href="administracion"><i class="wb-plugin user-menu-dropdown-icons"></i>Ir a la página de administración.</a></li>
 								<li><a href="#/salir"><i class="wb-power user-menu-dropdown-icons"></i>Salir del Sistema.</a></li>
 							</ul>
 						</li>
@@ -89,7 +62,7 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="jumbotron">
-					<h2>DS - ESQUEMAS</h2>
+					<h2>BIOS Y ESQUEMAS</h2>
 				</div>
 			</div>
 		</div>

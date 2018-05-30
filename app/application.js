@@ -34,10 +34,6 @@ angular.module('application').config(function($routeProvider){
         templateUrl:'view/usuario.html',
         controller:'usuarioCtrl'
     })
-    .when('/administracion',{
-        templateUrl:'view/administracion.html',
-        controller:'administracionCtrl'
-    })
     .otherwise({redirectTo:'/'});
 });
 

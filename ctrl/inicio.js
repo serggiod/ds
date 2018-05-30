@@ -10,6 +10,7 @@ angular.module('application')
 
         $rootScope.showUserMenu = false;
         $rootScope.isAdmin = false;
+        $rootScope.section = '/ Buscar';
         if($session.get('estado')==='ACTIVO'){
             $rootScope.showUserMenu = true;
             $rootScope.nombre = $session.get('nombre');
