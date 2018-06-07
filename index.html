@@ -16,6 +16,55 @@
 
 		<!-- CSS Library: Web-Icons-->
 		<link rel="stylesheet" href="img/web-icons/css/web-icons.css">
+
+		<!-- Librería JS JQuery -->
+		<script src="jlib/jquery.min.js"></script>
+		<!--script src="jlib/md5.js"></script-->
+		<script src="jlib/json3.min.js"></script>
+
+		<!-- Libreria JS Boostrap -->
+		<script src="jlib/bootstrap.min.js"></script>
+		
+		<!-- Librería JS BootstrapDialog -->
+		<script src="jlib/bootstrap-dialog.min.js"></script>
+		<script>
+			BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_DEFAULT] = 'INFORMACION';
+			BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_INFO]    = 'INFORMACION';
+			BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_PRIMARY] = 'INFORMACION';
+			BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_SUCCESS] = 'CORRECTO';
+			BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_WARNING] = 'ATENCION';
+			BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_DANGER]  = 'ERROR';
+			BootstrapDialog.DEFAULT_TEXTS['OK']      = 'OK';
+			BootstrapDialog.DEFAULT_TEXTS['CANCEL']  = 'Cancelar';
+			BootstrapDialog.DEFAULT_TEXTS['CONFIRM'] = 'Confirmar';
+		</script>
+
+		<!-- SB Admin 2 Bootstrap Admin Theme -->
+		<!-- script src="jlib/sb-admin-2.js"></script-->
+		<link rel="stylesheet" href="jlib/sb-admin-2.css">
+
+		<!-- Libreria JS Angular -->
+		<script src="jlib/angular.min.js"></script>
+		<script src="jlib/angular-route.js"></script>
+		<script src="jlib/angular-ui-router.min.js"></script>
+		<script src="jlib/angular-sanitize.js"></script>
+		<script src="jlib/angular-md5.min.js"></script>
+		<script src="jlib/ocLazyLoad.min.js"></script>
+
+		<!-- Applicacion -->
+		<script src="app/application.js"></script>
+		
+		<!-- Factory de Aplicación -->
+		<script src="fac/session.js"></script>
+		
+		<!-- Controladores de Aplicacion -->
+		<script src="ctrl/inicio.js"></script>
+		<script src="ctrl/historico.js"></script>
+		<script src="ctrl/registrarse.js"></script>
+		<script src="ctrl/entrar.js"></script>
+		<script src="ctrl/salir.js"></script>
+		<script src="ctrl/usuario.js"></script>
+
 	</head>
 	<body class="container container-fluid">
 
@@ -49,7 +98,7 @@
 							</button>
 							<ul class="dropdown-menu user-menu-dropdown">
 								<li><a href="#/usuario"><i class="wb-user-circle user-menu-dropdown-icons"></i>Ir a la pagina del usuario.</a></li>
-								<li ng-show="isAdmin"><a href="administracion"><i class="wb-plugin user-menu-dropdown-icons"></i>Ir a la página de administración.</a></li>
+								<li ng-show="isAdmin"><a href="dashboard"><i class="wb-plugin user-menu-dropdown-icons"></i>Ir a la página de administración.</a></li>
 								<li><a href="#/salir"><i class="wb-power user-menu-dropdown-icons"></i>Salir del Sistema.</a></li>
 							</ul>
 						</li>
@@ -69,46 +118,6 @@
 
 		<!-- Escenario donde se cargan las vistas -->
 		<ng-view></ng-view>
-		
-		<!-- Librería JS JQuery -->
-		<script src="jlib/jquery-1.11.3.min.js"></script>
-		<script src="jlib/md5.js"></script>
-
-		<!-- Libreria JS Boostrap -->
-		<script src="jlib/bootstrap.min.js"></script>
-		
-		<!-- Librería JS BootstrapDialog -->
-		<script src="jlib/bootstrap-dialog.min.js"></script>
-		<script>
-			BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_DEFAULT] = 'INFORMACION';
-			BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_INFO]    = 'INFORMACION';
-			BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_PRIMARY] = 'INFORMACION';
-			BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_SUCCESS] = 'CORRECTO';
-			BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_WARNING] = 'ATENCION';
-			BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_DANGER]  = 'ERROR';
-			BootstrapDialog.DEFAULT_TEXTS['OK']      = 'OK';
-			BootstrapDialog.DEFAULT_TEXTS['CANCEL']  = 'Cancelar';
-			BootstrapDialog.DEFAULT_TEXTS['CONFIRM'] = 'Confirmar';
-		</script>
-
-		<!-- Libreria JS Angular -->
-		<script src="jlib/angular.min.js"></script>
-		<script src="jlib/angular-route.js"></script>
-		<script src="jlib/angular-sanitize.js"></script>
-
-		<!-- Applicacion -->
-		<script src="app/application.js"></script>
-		
-		<!-- Factory de Aplicación -->
-		<script src="fac/session.js"></script>
-		
-		<!-- Controladores de Aplicacion -->
-		<script src="ctrl/inicio.js"></script>
-		<script src="ctrl/historico.js"></script>
-		<script src="ctrl/registrarse.js"></script>
-		<script src="ctrl/entrar.js"></script>
-		<script src="ctrl/salir.js"></script>
-		<script src="ctrl/usuario.js"></script>
 
 	</body>
 </html>

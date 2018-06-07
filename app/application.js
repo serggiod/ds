@@ -1,4 +1,4 @@
-angular.module('application',['ngRoute','ngSanitize']);
+angular.module('application',['ngRoute','ngSanitize','angular-md5']);
 
 /* RUTAS */
 angular.module('application').config(function($routeProvider){

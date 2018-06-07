@@ -1,0 +1,89 @@
+<!doctype html>
+<html class="no-js" lang="es" ng-app="application">
+  <head>
+    <meta charset="utf-8">
+    <title>BIOS Y ESQUEMAS / {{section}} </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    
+    <!-- Libreria CSS Estilos básicvos de la applicación -->
+    <link rel="stylesheet" href="../css/base.css" />
+
+    <!-- Libreria JS Boostrap -->
+    <link rel="stylesheet" href="../jlib/bootstrap.min.css">
+    <link rel="stylesheet" href="../jlib/bootstrap-theme.min.css">
+
+    <!-- Librería JS BootstrapDialog -->
+    <link rel="stylesheet" href="../jlib/bootstrap-dialog.min.css"/>
+
+    <!-- CSS Library: Web-Icons-->
+    <link rel="stylesheet" href="../img/web-icons/css/web-icons.css">
+
+    <!-- Librería JS JQuery -->
+    <script src="../jlib/jquery.min.js"></script>
+    <!--script src="jlib/md5.js"></script-->
+    <script src="../jlib/json3.min.js"></script>
+
+    <!-- Libreria JS Boostrap -->
+    <script src="../jlib/bootstrap.min.js"></script>
+    
+    <!-- Librería JS BootstrapDialog -->
+    <script src="../jlib/bootstrap-dialog.min.js"></script>
+    <script>
+        BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_DEFAULT] = 'INFORMACION';
+        BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_INFO]    = 'INFORMACION';
+        BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_PRIMARY] = 'INFORMACION';
+        BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_SUCCESS] = 'CORRECTO';
+        BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_WARNING] = 'ATENCION';
+        BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_DANGER]  = 'ERROR';
+        BootstrapDialog.DEFAULT_TEXTS['OK']      = 'OK';
+        BootstrapDialog.DEFAULT_TEXTS['CANCEL']  = 'Cancelar';
+        BootstrapDialog.DEFAULT_TEXTS['CONFIRM'] = 'Confirmar';
+    </script>
+
+    <!-- SB Admin 2 Bootstrap Admin Theme -->
+    <!-- script src="jlib/sb-admin-2.js"></script-->
+    <link rel="stylesheet" href="../jlib/sb-admin-2.css">
+        
+    <!-- Libreria JS Angular -->
+    <script src="../jlib/angular.min.js"></script>
+    <script src="../jlib/angular-route.js"></script>
+    <script src="../jlib/angular-ui-router.min.js"></script>
+    <script src="../jlib/angular-sanitize.js"></script>
+    <script src="../jlib/angular-md5.min.js"></script>
+    <script src="../jlib/ocLazyLoad.min.js"></script>
+
+    <!-- Applicacion -->
+    <script src="app/application.js"></script>
+    
+    <!-- Factory de Aplicación -->
+    <script src="../fac/session.js"></script>
+
+    <!-- Directivas de Aplicación -->
+    <script src="dir/header/header.js"></script>
+    <script src="dir/header-notification/header-notification.js"></script>
+    <script src="dir/sidebar/sidebar.js"></script>
+    <script src="dir/sidebar/sidebar-search/sidebar-search.js"></script>
+    <script src="dir/stats/stats.js"></script>
+    
+    <!-- Controladores de Aplicacion -->
+    <script src="ctrl/resumen.js"></script>
+    <script src="ctrl/chart.js"></script>
+    
+    <script src="ctrl/form.js"></script>
+    
+    </head>
+   
+    <body class="container-fluid">
+        <div class="row d-nopadding">
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
+                <sidebar></sidebar>
+            </div>
+            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-10">
+                <header></header>
+                <div ng-view></div>
+            </div>
+        </div>
+    </body>
+
+</html>

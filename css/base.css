@@ -30,3 +30,9 @@
 .table-title{
     font-weight: bold;
 }
+
+/* DASHBOAR */
+.d-nopadding > div[class^="col-"] {
+    padding-right: 0;
+    padding-left:  0;
+}
