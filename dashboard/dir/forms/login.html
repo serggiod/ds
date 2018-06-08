@@ -1,0 +1,39 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <i class="fa fa-sign-in fa-5x"></i>
+            </div>
+            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                <div class="huge">Login</div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div ng-show="success" class="alert alert-success"><strong>CORRECTO:</strong> El usuario se ha logueado en forma corrrecta.</div>
+                <div ng-show="danger" class="alert alert-danger"><strong>ERROR:</strong> El usuario no se ha logueado en forma correcta.</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">Usuario:</div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <input type="text" ng-focus="clear()" ng-model="usuario" maxlength="30" class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">Password:</div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <input type="password" ng-keyup="login2($event)" ng-model="password" maxlength="10" class="form-control">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <button type="button" ng-click="login()" class="btn btn-primary pull-right">
+            <i class="fa fa-check-circle"></i>
+            Ingresar
+        </button>
+        <span class="clearfix"></span>
+    </div>
+</div>

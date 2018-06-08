@@ -42,7 +42,6 @@
         </script>
 
         <!-- SB Admin 2 Bootstrap Admin Theme -->
-        <!-- script src="jlib/sb-admin-2.js"></script-->
         <link rel="stylesheet" href="../jlib/sb-admin-2.css">
         <link rel="stylesheet" href="../jlib/font-awesome.min.css">
             
@@ -58,15 +57,31 @@
         <script src="../fac/session.js"></script>
 
         <!-- Directivas de Aplicación -->
+        <script src="dir/header/header.js"></script>
+        <script src="dir/header-notification/header-notification.js"></script>
+        <script src="dir/sidebar/sidebar.js"></script>
+        <script src="dir/sidebar/sidebar-search/sidebar-search.js"></script>
+        <script src="dir/stats/stats.js"></script>
         <script src="dir/forms/login.js"></script>
-        
+        <script src="dir/forms/logout.js"></script>
+
         <!-- Controladores de Aplicacion -->
         <script src="ctrl/login.js"></script>
+        <script src="ctrl/logout.js"></script>
+        <script src="ctrl/resumen.js"></script>
     
     </head>
    
     <body class="container-fluid">
-        <div ng-view></div>
+        <div class="row d-nopadding">
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
+                <sidebar></sidebar>
+            </div>
+            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-10">
+                <header></header>
+                <div ng-view></div>
+            </div>
+        </div>
     </body>
 
 </html>
