@@ -36,6 +36,7 @@ require 'models/esquemas.php';
 require 'models/historico.php';
 require 'models/session.php';
 require 'models/usuarios.php';
+require 'models/dashboard-resumen.php';
 
 unset($pdo);
 

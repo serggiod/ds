@@ -185,6 +185,28 @@ BEGIN
 END$
 #--------------------------------------------------------------------------
 
+SELECT
+	CONCAT(
+		"[",
+		GROUP_CONCAT(
+			CONCAT(
+				'{"id":"',ua.usa_id,'",',
+				'"nombre":"',ua.usa_nom,'",',
+				'"descripcion":"',ua.usa_des,'",',
+				'"archivo":"',ua.usa_arc,'",',
+				'"fecha":"',ua.usa_dat,'",',
+				'"estado":"',ua.usa_est,'"}'
+			)
+		),
+		"]"
+	)
+FROM
+	usuarios_archivos ua
+WHERE
+	ua.usa_est='PENDIENTE'
+ORDER BY
+	ua.usa_dat DESC;
+
 #--------------------------------------------------------------------------
 DELIMITER ;
 
