@@ -1,30 +1,69 @@
 <?php
     $app->get('/dashboard/resumen/esquemas-enviados', function($rq, $rs, $a) use ($session,$pdo,$e404) {
         
-        /*$sql   = "CALL esquemaBuscar('";
-        $sql  .= preg_replace('[a-zA-Z0-9\ \-\_\.\;]','',$a['esquema']);
-        $sql  .= "');";
+        $sql   = "CALL dashboardResumenEsquemasEnviados();";
         
-        $query = $pdo->prepare($sql);*/
-        $json = json_decode('[
-            {"nombre":"Prueba1","fecha":"29-05-2018","id":"1"},
-            {"nombre":"Prueba2","fecha":"28-05-2018","id":"2"},
-            {"nombre":"Prueba3","fecha":"27-05-2018","id":"3"},
-            {"nombre":"Prueba4","fecha":"26-05-2018","id":"4"},
-            {"nombre":"Prueba5","fecha":"25-05-2018","id":"5"},
-            {"nombre":"Prueba6","fecha":"24-05-2018","id":"6"},
-            {"nombre":"Prueba7","fecha":"23-05-2018","id":"7"},
-            {"nombre":"Prueba8","fecha":"22-05-2018","id":"8"},
-            {"nombre":"Prueba9","fecha":"21-05-2018","id":"9"},
-            {"nombre":"Prueba10","fecha":"20-05-2018","id":"10"}
-        ]');
-        
-    
-        //if($query->execute()){
+        $query = $pdo->prepare($sql);
+
+        if($query->execute()){
             $rs = $rs->withHeader('Content-Type','application/json; charset=UTF-8');
-            //return $rs->write($query->fetchColumn());
-            return $rs->write(json_encode([result=>true,rows=>$json]));
-        //} else $e404();
+            return $rs->write($query->fetchColumn());
+        } else $e404();
+
+    });
+
+    $app->put('/dashboard/resumen/esquemas-enviados-update', function($rq, $rs, $a) use ($session,$pdo,$e404) {
+        
+        $esquema = json_decode($rq->getBody());
+        $esquema->id = intval($esquema->id);
+        $esquema->esquema = filter_var($esquema->esquema,FILTER_SANITIZE_STRING);
+        $esquema->descripcion = filter_var($esquema->descripcion,FILTER_SANITIZE_STRING);
+
+        $sql   = "CALL dashboardResumenEsquemasEnviadosUpdate('";
+        $sql .= $esquema->id."','";
+        $sql .= $esquema->esquema."','";
+        $sql .= $esquema->descripcion."');";
+
+        $query = $pdo->prepare($sql);
+
+        if($query->execute()){
+            $rs = $rs->withHeader('Content-Type','application/json; charset=UTF-8');
+            return $rs->write($query->fetchColumn());
+        } else $e404();
+
+    });
+
+    $app->put('/dashboard/resumen/esquemas-enviados-aprobar', function($rq, $rs, $a) use ($session,$pdo,$e404) {
+        
+        $esquema = json_decode($rq->getBody());
+
+        $sql  = "CALL dashboardResumenEsquemasEnviadosAprobar('";
+        $sql .= intval($esquema->id);
+        $sql .= "');";
+        
+        $query = $pdo->prepare($sql);
+
+        if($query->execute()){
+            $rs = $rs->withHeader('Content-Type','application/json; charset=UTF-8');
+            return $rs->write($query->fetchColumn());
+        } else $e404();
+
+    });
+
+    $app->put('/dashboard/resumen/esquemas-enviados-rechazar', function($rq, $rs, $a) use ($session,$pdo,$e404) {
+        
+        $esquema = json_decode($rq->getBody());
+
+        $sql  = "CALL dashboardResumenEsquemasEnviadosRechazar('";
+        $sql .= intval($esquema->id);
+        $sql .= "');";
+        
+        $query = $pdo->prepare($sql);
+
+        if($query->execute()){
+            $rs = $rs->withHeader('Content-Type','application/json; charset=UTF-8');
+            return $rs->write($query->fetchColumn());
+        } else $e404();
 
     });
 

@@ -32,18 +32,26 @@ CREATE TABLE usuarios (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 INSERT INTO usuarios VALUES(1,'Administrador','Sistema','admin@ds.com','1a1dc91c907325c69271ddf0c944bc72','true');
 
-DROP TABLE IF EXISTS usuarios_archivos;
-CREATE TABLE usuarios_archivos (
-  usa_id INT(11) NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS usuarios_esquemas;
+CREATE TABLE usuarios_esquemas (
+  use_id INT(11) NOT NULL AUTO_INCREMENT,
   usu_id INT(11) NULL,
-  usa_nom VARCHAR(30),
-  usa_des TEXT,
-  usa_arc CHAR(32),
-  usa_dat TIMESTAMP,
-  usa_est ENUM('APROBADO','PENDIENTE','RECHAZADO'), 
-  PRIMARY KEY (usa_id)
+  use_nom VARCHAR(30),
+  use_des TEXT,
+  use_arc CHAR(32),
+  use_dat TIMESTAMP,
+  use_est ENUM('APROBADO','PENDIENTE','RECHAZADO'), 
+  PRIMARY KEY (use_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+INSERT INTO usuarios_esquemas VALUES (null,1,'ADF-ASDF-ASD','DESCRIPCION DE ESQUEMA.','adf',now(),'PENDIENTE');
+INSERT INTO usuarios_esquemas VALUES (null,1,'WDR-ASDF-ASD','DESCRIPCION DE ESQUEMA.','adf',now(),'PENDIENTE');
+INSERT INTO usuarios_esquemas VALUES (null,1,'SDR-ASDF-ASD','DESCRIPCION DE ESQUEMA.','adf',now(),'PENDIENTE');
+INSERT INTO usuarios_esquemas VALUES (null,1,'DRF-ASDF-ASD','DESCRIPCION DE ESQUEMA.','adf',now(),'PENDIENTE');
+INSERT INTO usuarios_esquemas VALUES (null,1,'QAS-ASDF-ASD','DESCRIPCION DE ESQUEMA.','adf',now(),'PENDIENTE');
+INSERT INTO usuarios_esquemas VALUES (null,1,'FTG-ASDF-ASD','DESCRIPCION DE ESQUEMA.','adf',now(),'PENDIENTE');
 
+
+/* FRONTEND */
 # PROCEDIMINETOS
 DELIMITER $
 #-----------------------------------------------------------
@@ -139,13 +147,13 @@ END$
 DROP PROCEDURE IF EXISTS usuariosEsquemasNuevo$
 CREATE PROCEDURE usuariosEsquemasNuevo(
   usu_id INT(11),
-  usa_nom VARCHAR(30),
-  usa_des TEXT,
-  usa_arc CHAR(32)
+  use_nom VARCHAR(30),
+  use_des TEXT,
+  use_arc CHAR(32)
 )
 BEGIN
   SET @json = (SELECT CONCAT('{"result":false,"rows":null}'));
-  INSERT INTO usuarios_archivos VALUES(NULL,usu_id,usa_nom,usa_des,usa_arc,NOW(),'PENDIENTE');
+  INSERT INTO usuarios_esquemas VALUES(NULL,usu_id,use_nom,use_des,use_arc,NOW(),'PENDIENTE');
   SET @count = (SELECT LAST_INSERT_ID());
   IF @count >=1 THEN
     SET @json = (SELECT CONCAT('{"result":true,"rows":false}'));
@@ -153,15 +161,13 @@ BEGIN
   SELECT @json;
 END$
 #----------------------------------------------------------------------
-DROP PROCEDURE IF EXISTS usuariosEsquemasTodos$
-DROP PROCEDURE IF EXISTS usuarioEsquemaEnviados$
 DROP PROCEDURE IF EXISTS usuarioEsquemasEnviados$
 CREATE PROCEDURE usuarioEsquemasEnviados (
   usu_id INT(11)
 )
 BEGIN
   SET @json = (SELECT CONCAT('{"result":false,"rows":null}'));
-  SET @esquemas = (SELECT GROUP_CONCAT(CONCAT('{"id":"',ua.usa_id,'","nombre":"',ua.usa_nom,'","estado":"',ua.usa_est,'","fecha":"',DATE_FORMAT(ua.usa_dat,'%d-%m-%Y'),'"}') ORDER BY ua.usa_dat DESC) FROM usuarios_archivos ua WHERE ua.usu_id=usu_id);
+  SET @esquemas = (SELECT GROUP_CONCAT(CONCAT('{"id":"',ue.use_id,'","nombre":"',ue.use_nom,'","estado":"',ue.use_est,'","fecha":"',DATE_FORMAT(ue.use_dat,'%d-%m-%Y'),'"}') ORDER BY ue.use_dat DESC) FROM usuarios_esquemas ue WHERE uea.usu_id=usu_id);
   SET @count = (SELECT COUNT(@esquemas));
   IF @count >=1 THEN
     SET @json = (SELECT CONCAT('{"result":true,"rows":[',@esquemas,']}'));
@@ -185,28 +191,121 @@ BEGIN
 END$
 #--------------------------------------------------------------------------
 
-SELECT
-	CONCAT(
-		"[",
-		GROUP_CONCAT(
-			CONCAT(
-				'{"id":"',ua.usa_id,'",',
-				'"nombre":"',ua.usa_nom,'",',
-				'"descripcion":"',ua.usa_des,'",',
-				'"archivo":"',ua.usa_arc,'",',
-				'"fecha":"',ua.usa_dat,'",',
-				'"estado":"',ua.usa_est,'"}'
-			)
-		),
-		"]"
-	)
-FROM
-	usuarios_archivos ua
-WHERE
-	ua.usa_est='PENDIENTE'
-ORDER BY
-	ua.usa_dat DESC;
 
-#--------------------------------------------------------------------------
+
+
+/* BACKEND */
+/*--------------------------------------------------------------------------*/
+
+DROP PROCEDURE IF EXISTS dashboardResumenEsquemasEnviados$
+CREATE PROCEDURE dashboardResumenEsquemasEnviados (
+)
+BEGIN
+	SET @json = (SELECT CONCAT('{"result":false,"rows":null}'));
+	SET @esquemas = (
+		SELECT
+			CONCAT(
+				'[',
+				GROUP_CONCAT(CONCAT('{"id":"',ue.use_id,'","esquema":"',ue.use_nom,'","descripcion":"',ue.use_des,'","fecha":"',DATE_FORMAT(ue.use_dat,'%d-%m-%Y'),'"}')),
+				']'
+			)
+		FROM
+			usuarios_esquemas ue
+		WHERE
+			ue.use_est='PENDIENTE'
+		ORDER BY
+			ue.use_dat DESC
+		LIMIT
+			0,10
+	);
+	SET @count = (SELECT COUNT(@esquemas));
+
+	IF @count >= 1 THEN
+		SET @json = (SELECT CONCAT('{"result":true,"rows":',@esquemas,'}'));
+	END IF;
+
+	SELECT @json;
+END$
+/*-------------------------------------------------------*/
+DROP PROCEDURE IF EXISTS dashboardResumenEsquemasEnviadosUpdate$
+CREATE PROCEDURE dashboardResumenEsquemasEnviadosUpdate (
+  useid INT(11),
+  usenom VARCHAR(30),
+  usedes TEXT
+)
+BEGIN
+	SET @json = (SELECT CONCAT('{"result":false,"rows":null}'));
+  UPDATE usuarios_esquemas SET use_nom=usenom, use_des=usedes WHERE use_id=useid;
+	SET @count = (SELECT ROW_COUNT());
+
+	IF @count >= 1 THEN
+		SET @json = (SELECT CONCAT('{"result":true,"rows":null}'));
+	END IF;
+
+	SELECT @json;
+END$
+/*-------------------------------------------------------*/
+DROP PROCEDURE IF EXISTS dashboardResumenEsquemasEnviados$
+CREATE PROCEDURE dashboardResumenEsquemasEnviados (
+)
+BEGIN
+	SET @json = (SELECT CONCAT('{"result":false,"rows":null}'));
+	SET @esquemas = (
+		SELECT
+			CONCAT(
+				'[',
+				GROUP_CONCAT(CONCAT('{"id":"',ue.use_id,'","esquema":"',ue.use_nom,'","descripcion":"',ue.use_des,'","fecha":"',DATE_FORMAT(ue.use_dat,'%d-%m-%Y'),'"}')),
+				']'
+			)
+		FROM
+			usuarios_esquemas ue
+		WHERE
+			ue.use_est='PENDIENTE'
+		ORDER BY
+			ue.use_dat DESC
+		LIMIT
+			0,10
+	);
+	SET @count = (SELECT COUNT(@esquemas));
+
+	IF @count >= 1 THEN
+		SET @json = (SELECT CONCAT('{"result":true,"rows":',@esquemas,'}'));
+	END IF;
+
+	SELECT @json;
+END$
+/*-------------------------------------------------------*/
+DROP PROCEDURE IF EXISTS dashboardResumenEsquemasEnviadosAprobar$
+CREATE PROCEDURE dashboardResumenEsquemasEnviadosAprobar (
+  useid INT(11)
+)
+BEGIN
+  UPDATE usuarios_esquemas SET use_est='APROBADO' WHERE use_id=useid;
+	SET @count = (SELECT ROW_COUNT());
+  SET @json  = (SELECT CONCAT('{"result":false,"rows":null}'));
+
+	IF @count >= 1 THEN
+		SET @json = (SELECT CONCAT('{"result":true,"rows":null}'));
+	END IF;
+
+	SELECT @json;
+END$
+/*-------------------------------------------------------*/
+DROP PROCEDURE IF EXISTS dashboardResumenEsquemasEnviadosRechazar$
+CREATE PROCEDURE dashboardResumenEsquemasEnviadosRechazar (
+  useid INT(11)
+)
+BEGIN
+  UPDATE usuarios_esquemas SET use_est='RECHAZADO' WHERE use_id=useid;
+	SET @count = (SELECT ROW_COUNT());
+  SET @json  = (SELECT CONCAT('{"result":false,"rows":null}'));
+
+	IF @count >= 1 THEN
+		SET @json = (SELECT CONCAT('{"result":true,"rows":null}'));
+	END IF;
+
+	SELECT @json;
+END$
+/*-------------------------------------------------------*/
 DELIMITER ;
 

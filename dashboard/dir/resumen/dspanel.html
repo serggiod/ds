@@ -18,14 +18,14 @@
                 </tr>        
             </thead>
             <tbody>
-                <tr ng-repeat="r in model.tabla.registros">
+                <tr ng-repeat="(k,r) in model.tabla.registros">
                     <td ng-repeat="e in model.tabla.encabezados">{{r[e]}}</td>
                     <td>
                         <button
                             ng-repeat="a in model.acciones"
                             type="button"
                             class="btn btn-{{a.tipo}} btn-sm"
-                            ng-click="a.ejecutar(r.id)">
+                            ng-click="a.ejecutar(k)">
                             <i ng-show="a.icono.length" class="fa fa-{{a.icono}}"></i>
                             {{a.texto}}
                         </button>
