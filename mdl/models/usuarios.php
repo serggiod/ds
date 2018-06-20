@@ -15,12 +15,17 @@
     });
 
     $app->get('/usuario/esquemas/enviados',function($rq,$rs,$a) use ($pdo,$e404,$session){
+        
         $usuId = $_SESSION['USUID'];
+
         $sql = "CALL usuarioEsquemasEnviados($usuId);";
-        error_log($sql);
+        
+        //error_log($sql);
         $query = $pdo->prepare($sql);
+        
         if($query->execute()){
             $rs = $rs->withHeader('Content-Type','application/json; charset=UTF-8');
             return $rs->write($query->fetchColumn());
         } else $e404();
+
     });

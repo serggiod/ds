@@ -166,9 +166,22 @@ CREATE PROCEDURE usuarioEsquemasEnviados (
   usu_id INT(11)
 )
 BEGIN
-  SET @json = (SELECT CONCAT('{"result":false,"rows":null}'));
-  SET @esquemas = (SELECT GROUP_CONCAT(CONCAT('{"id":"',ue.use_id,'","nombre":"',ue.use_nom,'","estado":"',ue.use_est,'","fecha":"',DATE_FORMAT(ue.use_dat,'%d-%m-%Y'),'"}') ORDER BY ue.use_dat DESC) FROM usuarios_esquemas ue WHERE uea.usu_id=usu_id);
+  SET @esquemas = (
+		SELECT
+				GROUP_CONCAT(
+          CONCAT('{"id":"',ue.use_id,'","esquema":"',ue.use_nom,'","descripcion":"',ue.use_des,'","fecha":"',DATE_FORMAT(ue.use_dat,'%d-%m-%Y'),'","estado":"',ue.use_est,'"}')
+        	ORDER BY ue.use_dat DESC
+        )
+		FROM
+			usuarios_esquemas ue
+		WHERE
+			ue.usu_id=usu_id
+		LIMIT
+			0,10
+	);
   SET @count = (SELECT COUNT(@esquemas));
+  SET @json = (SELECT CONCAT('{"result":false,"rows":null}'));
+  
   IF @count >=1 THEN
     SET @json = (SELECT CONCAT('{"result":true,"rows":[',@esquemas,']}'));
   END IF;   
@@ -195,6 +208,21 @@ END$
 
 
 /* BACKEND */
+/*--------------------------------------------------------------------------*/
+DROP PROCEDURE IF EXISTS dashboardLogin$
+CREATE PROCEDURE dashboardLogin (
+  usu_ema VARCHAR(30),
+  usu_pas VARCHAR(32)
+)
+BEGIN
+  SET @usuario = (SELECT CONCAT('{"id":"',u.usu_id,'","nombre":"',u.usu_nom,'","apellido":"',u.usu_ape,'","email":"',u.usu_ema,'","isadmin":"',u.usu_adm,'"}') FROM usuarios u WHERE u.usu_ema=usu_ema AND u.usu_pas=usu_pas AND u.usu_adm='true');
+  SET @count = (SELECT COUNT(@usuario));
+  SET @json = (SELECT CONCAT('{"result":false,"rows":true}'));
+  IF @count >= 1 THEN
+    SET @json = (SELECT CONCAT('{"result":true,"rows":',@usuario,'}'));
+  END IF;
+  SELECT @json;
+END$
 /*--------------------------------------------------------------------------*/
 
 DROP PROCEDURE IF EXISTS dashboardResumenEsquemasEnviados$

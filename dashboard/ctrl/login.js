@@ -22,7 +22,7 @@ angular
 					$scope.danger = false;
 					if(json.result===true){
 						$scope.success = true;
-						//$session.start(json.rows);
+						$session.start(json.rows);
 						document.location.href='dashboard.html#/resumen';
 					} else $scope.danger = true;
 				});

@@ -3,35 +3,21 @@
         <div class="col-md-10 col-md-offset-1">
 
             <h3>Usuario <small>Panel</small> </h3>
-
+               
             <p>&nbsp;</p>
-            
-            <!-- Envios -->
-            <div class="panel panel-primary">
-                <div class="panel-heading clearfix">
-                    <h4 class="pull-left">Esquemas enviados</h4>
-                    <button ng-click="usuarioEnviarUnEsquema()" class="btn btn-success pull-right">Enviar un esquema</button>
-                </div>
-                <div class="panel-body">
-                    <table class="table table-bordered">
-                        <tr class="table-title">
-                            <td>Esquema</td>
-                            <td>Fecha</td>
-                            <td>Estado</td>
-                            <td></td>
-                        </tr>
-                        <tr ng-repeat="e in esquemasEnviados">
-                            <td>{{e.nombre}}</td>
-                            <td>{{e.fecha}}</td>
-                            <td>{{e.estado}}</td>
-                            <td></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
 
+            <panel ng-model="esquemasEnviados">
+                <buttons>
+                    <button ng-click="esquemasEnviados.enviarUnEsquema()" class="btn btn-success pull-right">
+                        <i class="fa fa-cloud-upload"></i>
+                        Enviar un esquema
+                    </button>
+                    <span class="clearfix"></span>
+                </buttons>
+            </panel>
+            
             <!-- Busquedas -->
-            <div class="panel panel-primary">
+            <!--div class="panel panel-primary">
                 <div class="panel-heading clearfix">
                     <h4 class="pull-left">Busquedas realizadas</h4>
                     <button class="btn btn-success pull-right">Nueva busqueda</button>
@@ -46,10 +32,10 @@
                         </tr>
                     </table>
                 </div>
-            </div>
+            </div-->
 
             <!--Compras -->
-            <div class="panel panel-primary">
+            <!--div class="panel panel-primary">
                 <div class="panel-heading clearfix">
                     <h4 class="pull-left">Esquemas comprados</h4>
                     <button class="btn btn-success pull-right">Nueva compra</button>
@@ -64,10 +50,10 @@
                         </tr>
                     </table>
                 </div>
-            </div>
+            </div-->
 
             <!--Descagas -->
-            <div class="panel panel-primary">
+            <!--div class="panel panel-primary">
                 <div class="panel-heading clearfix">
                     <h4 class="pull-left">Esquemas gratis</h4>
                     <button class="btn btn-success pull-right">Nueva decargas gratis</button>
@@ -81,7 +67,7 @@
                         </tr>
                     </table>
                 </div>
-            </div>
+            </div-->
         </div>
     </div>
 </div>
