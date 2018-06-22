@@ -37,6 +37,8 @@
         
         $esquema = json_decode($rq->getBody());
 
+        copy('../tmp/'.$esquema->archivo.'.pdf','../files/'.$esquema->archivo.'.pdf');
+
         $sql  = "CALL dashboardResumenEsquemasEnviadosAprobar('";
         $sql .= intval($esquema->id);
         $sql .= "');";

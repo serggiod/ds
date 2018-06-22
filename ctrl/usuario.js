@@ -22,7 +22,7 @@ angular.module('application').controller('usuarioCtrl',function($scope,$http,$lo
             registros:[]
         },
         acciones:[
-            {icono:'external-link-square',texto:'',tipo:'info',ejecutar:function(key){
+            /*{icono:'external-link-square',texto:'',tipo:'info',ejecutar:function(key){
                 let esquema = $scope.esquemasEnviados.tabla.registros[key];
                 let aceptar = function(){ form.close(); };
                 let html  = '<div class="row">';
@@ -106,7 +106,7 @@ angular.module('application').controller('usuarioCtrl',function($scope,$http,$lo
                             if(json.result===true) $scope.esquemasEnviados.model.init();
                         });
                 }
-            }},
+            }},*/
             {icono:'times-circle',text:'',tipo:'danger',ejecutar:function(key){
                 if(confirm('¿Esta seguro que desea RECHAZAR este esquema?')){
                     let esquema = $scope.esquemasEnviados.tabla.registros[key];
@@ -126,84 +126,72 @@ angular.module('application').controller('usuarioCtrl',function($scope,$http,$lo
             }
         },
         enviarUnEsquema:function(){
-            $session.execute(function(){
-                window.hideAlerts = function(){
-                    document.getElementById('form1alert1').className = 'alert alert-success hide';
-                    document.getElementById('form1alert2').className = 'alert alert-danger hide';
-                    document.getElementById('nombre').value = '';
-                    document.getElementById('descripcion').value = '';
-                    document.getElementById('archivo').value='';
-                };
-                let form  = '<div id="form1alert1" class="alert alert-success hide"><strong>Correcto:</strong> El esquema se ha enviado e forma coorecta.</div>';
-                    form += '<div id="form1alert2" class="alert alert-danger hide"><strong>Error:</strong> El esquema no se ha guardado en forma corecta.</div>';
-                    form += '<label class="label label-default">Nombre:</label>';
-                    form += '<input id="nombre" onclick="window.hideAlerts()" type="text" class="form-control" maxlength="40">';
-                    form += '<label class="label label-default">Descripción:</label>';
-                    form += '<textarea id="descripcion" class="form-control" rows="2"></textarea>';
-                    form += '<label class="label label-default">Archivo en PDF</label>';
-                    form += '<input id="archivo" type="file" accept=".pdf" class="btn btn-primary form-control" lang="es">';
+            let html  = '<div class="row">';
+                html += '   <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">';
+                html += '       <strong>Nombre:</strong>';
+                html += '   </div>';
+                html += '   <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">';
+                html += '       <input id="nombre" type="text" class="form-control" maxlength="40">';
+                html += '   </div>';
+                html += "</div>";
+                html += '<div class="row">';
+                html += '   <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">';
+                html += '       <strong>Descripción:</strong>';
+                html += '   </div>';
+                html += '   <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">';
+                html += '       <textarea id="descripcion" class="form-control" rows="2"></textarea>';
+                html += '   </div>';
+                html += "</div>";
+                html += '<div class="row">';
+                html += '   <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">';
+                html += '       <strong>Archivo:</strong>';
+                html += '   </div>';
+                html += '   <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">';
+                html += '       <input id="archivo" type="file" accept=".pdf" class="btn btn-primary form-control" lang="es">';
+                html += '   </div>';
+                html += "</div>";
                 
-                let aceptar = function() {
-                    let archivo = document.getElementById('archivo');
-                    
-                    if(archivo.files.length===1 && archivo.files[0].type==='application/pdf'){
-                        let file = archivo.files[0];
-                        let read = new FileReader();
-                            read.readAsDataURL(archivo.files[0]);
-                            read.onload = function(event) {
-                                let url = 'mdl/index.php/esquemas/nuevo';
-                                let json = {
-                                    nombre:document.getElementById('nombre').value.match(new RegExp('[a-z0-9-]','gi')).join(''),
-                                    descripcion:document.getElementById('descripcion').value.match(new RegExp('[a-z0-9áéíóúÁÉÍÓÚñÑ.; ]','gim')).join(''),
-                                    base64:event.target.result.replace('data:application/pdf;base64,','')
-                                };
+            let aceptar = function() {
+                let archivo = document.getElementById('archivo');
+                
+                if(archivo.files.length===1 && archivo.files[0].type==='application/pdf'){
+                    let file = archivo.files[0];
+                    let read = new FileReader();
+                        read.readAsDataURL(archivo.files[0]);
+                        read.onload = function(event) {
+                            let url = 'mdl/index.php/usuarios/esquemas/nuevo';
+                            let json = {
+                                nombre:document.getElementById('nombre').value.match(new RegExp('[a-z0-9-]','gi')).join(''),
+                                descripcion:document.getElementById('descripcion').value.match(new RegExp('[a-z0-9áéíóúÁÉÍÓÚñÑ.; ]','gim')).join(''),
+                                base64:event.target.result.replace('data:application/pdf;base64,','')
+                            };
+                            //$session.execute(function(){
                                 $http
                                     .post(url,json)
                                     .success(function(json){
-                                        if(json.result===false) document.getElementById('form1alert2').className = 'alert alert-danger show';
+                                        if(json.result===false) BootstrapDialog.alert({title:'Error',message:'El esquema no se ha guardado en forma correcta.',type:BootstrapDialog.TYPE_DANGER});
                                         if(json.result===true){
-                                            $scope.usuarioEsquemasEnviados();
-                                            document.getElementById('form1alert1').className = 'alert alert-success show';
-                                            setInterval(function(){ 
-                                                win.close();
-                                                destroy();
-                                            },1000);
+                                            $scope.esquemasEnviados.model.init();
+                                            BootstrapDialog.alert({title:'Ok',message:'El quema se ha guardado en forma correcta.',type:BootstrapDialog.TYPE_SUCCESS});
+                                            form.close();
                                         }
                                     });
-                            };
-                    }
-                };
-                let cancelar = function() { 
-                    win.close();
-                    destroy();
-                };
-                let win = BootstrapDialog.show({
-                        closable:false,
-                        type:BootstrapDialog.TYPE_PRIMARY,
-                        size:BootstrapDialog.SIZE_SMALL,
-                        title: '<i class="wb-cloud form-icon"></i> ENVIAR ESQUEMA',
-                        message:form,
-                        buttons:[{
-                            cssClass:'btn btn-danger pull-left wp-close',
-                            label:'Cancelar',
-                            action:cancelar
-                        },{
-                            cssClass:'btn btn-success pull-right wp-check-circle',
-                            label:'Aceptar',
-                            action:aceptar 
-                        }]
-                    });
+                            //});
+                        };
+                } else BootstrapDialog.alert({title:'Error',message:'Debe seleccionar un archivo.',type:BootstrapDialog.TYPE_DANGER});
+            };
 
-                let destroy = function() {
-                    delete window.hideAlerts;
-                    delete form;
-                    delete aceptar;
-                    delete cancelar;
-                    delete win;
-                    delete destroy;
-                }
-        
-            });
+            let cancelar = function() { form.close(); };
+
+            let form = BootstrapDialog.show({
+                    closable:false,
+                    title: '<i class="fa fa-cloud-upload"></i> Enviar un esquema',
+                    message:html,
+                    buttons:[
+                        {cssClass:'btn btn-primary',label:'<i class="fa fa-check-circle"></i> Aceptar',action:aceptar},
+                        {cssClass:'btn btn-info',label:'<i class="fa fa-times-circle"></i> Cancelar',action:cancelar}
+                    ]
+                });
         }
     };
 

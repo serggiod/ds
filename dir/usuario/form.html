@@ -1,0 +1,38 @@
+<div class="panel panel-{{model.panel.color}}"> 
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 text-left">
+                <i class="fa fa-{{model.panel.icono}} fa-3x"></i>
+            </div>
+            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 text-right">
+                <h4><strong>{{model.panel.titulo}}</strong></h4>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <td ng-repeat="e in model.tabla.encabezados" class="text-uppercase"><strong>{{e}}</strong></td>
+                    <td class="text-uppercase"><strong>acciones</strong></td>
+                </tr>        
+            </thead>
+            <tbody>
+                <tr ng-repeat="(k,r) in model.tabla.registros">
+                    <td ng-repeat="e in model.tabla.encabezados">{{r[e]}}</td>
+                    <td>
+                        <button
+                            ng-repeat="a in model.acciones"
+                            type="button"
+                            class="btn btn-{{a.tipo}} btn-sm"
+                            ng-click="a.ejecutar(k)">
+                            <i ng-show="a.icono.length" class="fa fa-{{a.icono}}"></i>
+                            {{a.texto}}
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="panel-footer" ng-transclude="buttons"></div>
+</div>
