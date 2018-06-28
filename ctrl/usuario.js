@@ -11,6 +11,10 @@ angular.module('application').controller('usuarioCtrl',function($scope,$http,$lo
         $scope.esquemasEnviados.model.init();
     };
 
+    $scope.menu = [
+        {}
+    ];
+
     $scope.esquemasEnviados = {
         panel:{
             color:'primary',
@@ -18,7 +22,7 @@ angular.module('application').controller('usuarioCtrl',function($scope,$http,$lo
             titulo:'Esquemas Enviados'
         },
         tabla:{
-            encabezados:['esquema','fecha',,'estado'],
+            encabezados:['esquema','fecha','estado'],
             registros:[]
         },
         acciones:[

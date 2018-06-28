@@ -34,6 +34,10 @@ angular.module('application').config(function($routeProvider){
         templateUrl:'view/usuario.html',
         controller:'usuarioCtrl'
     })
+    .when('/usuario/carrito',{
+        templateUrl:'view/carrito.html',
+        controller:'carritoCtrl'
+    })
     .otherwise({redirectTo:'/'});
 });
 

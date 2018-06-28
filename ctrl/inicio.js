@@ -1,7 +1,7 @@
 angular.module('application')
 .controller('inicioCtrl',function($scope,$http,$location,$session,$routeParams,$rootScope){
     
-    $scope.init = () => {
+    $scope.init = function(){
 
         $scope.esquemas = new Array();
         $scope.chars    = '[a-z0-9\ \-\_\.\;]';
@@ -23,7 +23,7 @@ angular.module('application')
         
     };
 
-    $scope.voyATenerSuerte = () => {
+    $scope.voyATenerSuerte = function(){
         $scope.eschema = $scope.esquema.match(new RegExp($scope.chars,'gi')).join('');
         let url = 'mdl/index.php/esquemas/buscar/' + $scope.esquema;
         $http
@@ -36,18 +36,59 @@ angular.module('application')
             });
     };
 
-    $scope.voyATenerSuerteTabien = (keyb) => {
+    $scope.voyATenerSuerteTabien = function(keyb){
         if(keyb.keyCode===13) $scope.voyATenerSuerte();
     };
 
-    $scope.descargarEsquema = (name,file) => {
-        file = file.match(new RegExp('[A-Z0-9]','gi')).join('');
-        let url = 'mdl/index.php/esquemas/descargar/' + file;
-        let a = document.createElement('a');
-        document.body.appendChild(a);
-        a.download = name + '.pdf';
-        a.href = url;
-        a.click();
+    // Formulario carrito.
+    $scope.formularioCarrito = function(esquema){
+        let $element = angular.element('[id="formularioCarrito"]');
+        let $scope = $element.scope();
+        let $html = $element.html();
+            $scope.form = BootstrapDialog.show({
+                closable : false,
+                title    : '<i class="fa fa-shopping-cart"></i> Comprar esquema',
+                message  : $html,
+                buttons  : [
+                    {cssClass:'btn btn-primary', label:'<i class="fa fa-shopping-cart"></i> Agregar al carrito', action:$scope.formularioCarritoAgregar},
+                    {cssClass:'btn btn-info',    label:'<i class="fa fa-credit-card"></i> Pasarela de pago',     action:$scope.formularioCarritoPagar}
+                ]
+            });
+    };
+    $scope.formularioCarritoAgregar = function(esquema){
+        let $element = angular.element('[id="containerCarrito"]');
+        let $Scope = $element.scope();
+            $Scope.agregarAlCarrito(esquema);
+            $scope.form.close();
+    };
+    $scope.formularioCarritoPagar = function(){
+        $scope.form.close();
+        alert('Pasarela de pago');
+    };
+
+
+    // Formulario Session.
+    $scope.formularioSession = function(){
+        let $element = angular.element('[id="formularioSession"]');
+        let $scope = $element.scope();
+        let $html = $element.html();
+            $scope.form = BootstrapDialog.show({
+                closable : false,
+                title    : '<i class="glyphicon glyphicon-lock"></i> Session',
+                message  : $html,
+                buttons  : [
+                    {action:$scope.formularioSessionRegistrar, label:'<i class="fa fa-pencil-square-o"></i> Registrarse', cssClass:'btn btn-primary'},
+                    {action:$scope.formularioSessionSession,   label:'<i class="fa fa-unlock-alt"></i> Iniciar sesión',   cssClass:'btn btn-info'}
+                ]
+            });
+    };
+    $scope.formularioSessionSession = function(){
+        $scope.form.close();
+        document.location.href='#/entrar';
+    };
+    $scope.formularioSessionRegistrar = function(){
+        $scope.form.close();
+        document.location.href='#/registrarse';
     };
 
     $scope.reset = () => {

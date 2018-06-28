@@ -1,47 +1,102 @@
-<div class="container-fluid">
+    <!-- Formulario de Busqueda>
     <div class="row">
-
-        <!-- Formulario de Busqueda -->
-        <div class="col-md-10 col-md-offset-1">
-            <div class="input-group input-group-lg">
-                <span  class="input-group-addon">BUSCAR:</span>
-                <input ng-model="esquema" ng-focus="reset()" ng-keyup="voyATenerSuerteTabien($event)" class="form-control" type="text" name="esquema" id="esquema" maxlength="40"/>
-                <span  class="input-group-btn">
-                    <input ng-click="voyATenerSuerte()" class="btn btn-info" type="button" value="Voy a tener suerte!"/>
-                </span>
-            </div>
+        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1">
+            <input ng-model="esquema" ng-focus="reset()" ng-keyup="voyATenerSuerteTabien($event)" class="form-control" type="text" name="esquema" id="esquema" maxlength="40"/>
+            <p>&nbsp;</p>
+            <button ng-click="voyATenerSuerte()" class="btn btn-info btn-block" type="button">
+                <i class="fa fa-search"></i>
+                Buscar
+            </button>
             <p>&nbsp;</p>
         </div>
+    </div-->
+    
+    
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
 
-        <!-- Formulario Alert Success -->
-        <div ng-show="alertSuccess" class="col-md-10 col-md-offset-1">
-            <div class="alert alert-success">
-                La búsqueda de <strong>{{esquema}}</strong> tiene {{esquemas.length}} resultados.
-            </div>
-        </div>
+            <!-- Formulario de Busqueda -->
+            <input ng-model="esquema" ng-focus="reset()" ng-keyup="voyATenerSuerteTabien($event)" class="form-control" type="text" name="esquema" id="esquema" maxlength="40"/>
+            <p>&nbsp;</p>
+            <button ng-click="voyATenerSuerte()" class="btn btn-info btn-block" type="button">
+                <i class="fa fa-search"></i>
+                Buscar
+            </button>
 
-        <!-- Formulario Alert Danger -->
-        <div ng-show="alertDanger" class="col-md-10 col-md-offset-1">
-            <div class="alert alert-danger">
-                La búsqueda de <strong>{{esquema}}</strong> no arrojó resultados.
-            </div>
-        </div>
-
-        <!-- Formulario de  resultados -->
-        <div ng-repeat="e in esquemas" class="col-md-10 col-md-offset-1">
-            <div class="panel panel-info">
-                <div class="panel-heading clearfix">
-                    <h4 class="text-uppercase pull-left">Esquema: {{e.nombre}}</h4>
-                    <a ng-click="descargarEsquema(e.nombre,e.file)" class="btn btn-primary pull-right" data-toogle="tooltip" data-placement="right" title="Descargar esquema {{e.nombre}}"><span class="glyphicon glyphicon-save"></span></a>
-                </div>
-                <div class="panel-body">
-                    <strong>{{e.date}}</strong>
-                    <br/>
-                    {{e.descripcion}}
+            <!-- Formulario Alert Success -->
+            <div ng-show="alertSuccess">
+                <div class="alert alert-success">
+                    La búsqueda de <strong>{{esquema}}</strong> tiene {{esquemas.length}} resultados.
                 </div>
             </div>
+
+            <!-- Formulario Alert Danger -->
+            <div ng-show="alertDanger">
+                <div class="alert alert-danger">
+                    La búsqueda de <strong>{{esquema}}</strong> no arrojó resultados.
+                </div>
+            </div>
+
+            <!-- Formulario de  resultados -->
+            <div ng-repeat="e in esquemas">
+                <div class="panel panel-info">
+                    <div class="panel-heading clearfix">
+                        <h4 class="text-uppercase pull-left">Esquema: {{e.nombre}}</h4>
+                        
+                        <!-- Boton de Registro -->
+                        <a ng-hide="showUserMenu" ng-click="formularioSession()"
+                            class="btn btn-primary pull-right">
+                            <i class="glyphicon glyphicon-lock"></i>
+                        </a>
+
+                        <!-- Boton de Descarga -->
+                        <a ng-show="showUserMenu" ng-click="formularioCarrito(e)"
+                            class="btn btn-primary pull-right">
+                            <i class="fa fa-shopping-cart"></i >
+                        </a>
+
+                    </div>
+                    <div class="panel-body">
+                        <strong>{{e.date}}</strong>
+                        <br/>
+                        {{e.descripcion}}
+                    </div>
+                </div>
+            </div>
         </div>
 
-
+        <!-- Formulario: Aside, Carrito, Publicdad. -->
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <span id="containerCarrito" ng-controller="carritoCtrl">
+                <panel ng-model="carrito">
+                    <buttons>
+                        <button ng-click="carrito.irALaPasarelaDePago()" class="btn btn-success pull-right">
+                            <i class="fa fa-credit-card"></i>
+                            Pasarela de pago
+                        </button>
+                        <span class="clearfix"></span>
+                    </buttons>
+                </panel>
+            </span>
+        </div>
     </div>
-</div>
+
+
+    <!-- Formulario de cuadro de dialogos. -->
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+            <!-- Formulario: Session. -->
+            <span id="formularioSession" ng-show="">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <img src="img/banners/session.jpg" alt="Sessión" class="img-responsive">
+                </div>
+            </span>
+
+            <!-- Formulario: Carrito. -->
+            <span id="formularioCarrito" ng-show="">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <img src="img/banners/carrito.jpg" alt="Carrito" class="img-responsive">
+                </div>
+            </span>
+        </div>
+    </div>

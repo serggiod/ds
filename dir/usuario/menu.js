@@ -1,14 +1,14 @@
 angular
     .module('application')
-    .directive('panel',function(){
+    .directive('usuariomenu',function(){
         return {
-            templateUrl : 'dir/usuario/panel.html',
+            templateUrl : 'dir/usuario/menu.html',
             restrict    : 'E',
             replace     : true,
             require     : 'ngModel',
-            transclude  : {
-                'buttons' : 'buttons'
-            },
+            transclude  : true,
+            controller  : 'usuarioCtrl',
+            require     : 'ngModel',
             scope       : {
                 model   : '=ngModel'
             }
